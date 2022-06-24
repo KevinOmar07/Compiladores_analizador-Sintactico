@@ -1,0 +1,16 @@
+.fondoText{
+    -fx-text-inner-color: white;
+}
+
+.list-view .list-cell:even{
+    -fx-background-color: #584660;
+    -fx-text-fill: white;
+    -fx-border-color: #584660;
+}
+.list-view{
+    -fx-border-color: #584660;
+}
+.list-view .list-cell:odd{
+    -fx-background-color: #73506E;
+    -fx-text-fill: white;
+}
