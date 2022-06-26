@@ -32,20 +32,21 @@ public class AnalizadorSintactico {
         String a = entrada.get(apuntador).get(0);
         System.out.println("\n" + a);
 
+        mostrar_pila(pila);
+
         do {
-            mostrar_pila(pila);
             x = pila.peek();
 
-            if (x.equals("$")){
+            if (apuntador == entrada.size()){
                 a = "$";
             }
+
             if (a.equals("[")){
                 ciAux++;
             }
             if (a.equals("]")){
                 ccAux++;
             }
-
             System.out.println("Valor x: " + x);
             System.out.println("Valor a: " + a);
             if (terminales.contains(x)){
@@ -54,16 +55,15 @@ public class AnalizadorSintactico {
                     apuntador++;
 
                     if (apuntador < entrada.size()){
+                        System.out.println("Valor a if: " + entrada.get(apuntador).get(0));
                         a = entrada.get(apuntador).get(0);
-                    } else if (ccAux != ciAux){
-                        System.out.println("Error");
+                    } else if (!pila.isEmpty() && apuntador == entrada.size()+1){ //(ccAux != ciAux)
+                        System.out.println("Error: cadena incompleta");
                         status = false;
+                        System.out.println("apuntador: " + apuntador + " | Entrada: " + entrada.size());
                     }
-
-                    System.out.println("apuntador: " + apuntador);
-
                 } else {
-                    System.out.println("Error");
+                    System.out.println("Error: cadena incompleta");
                 }
             } else {
                 int posicion = 0;
@@ -86,9 +86,10 @@ public class AnalizadorSintactico {
                     pila.pop();
                     String [] produccion = tabla[noTerminales.indexOf(x)][posicion].split(" ");
                     for (int i = produccion.length-1; i>=0; i--){
-                        if (!produccion[i].equals("]")){
-                            pila.push(produccion[i]);
+                        if (produccion[i].equals("]")){
+                            pila.pop();
                         }
+                        pila.push(produccion[i]);
                     }
                 } else {
                     System.out.println("Error Sintactico: " + a);
@@ -96,6 +97,7 @@ public class AnalizadorSintactico {
                     status = false;
                 }
             }
+            mostrar_pila(pila);
             System.out.println("CI: " + ciAux + " | CC: " + ccAux);
             System.out.println("\n");
         }while (!x.equals("$") && status);

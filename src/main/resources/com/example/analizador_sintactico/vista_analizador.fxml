@@ -17,7 +17,7 @@
             <Font size="22.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="374.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Analizador Lexico">
+      <Text fill="WHITE" layoutX="374.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Analizador Sintactico">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>
