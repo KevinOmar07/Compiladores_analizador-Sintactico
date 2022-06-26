@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 
 public class AnalizadorSintactico {
     private boolean status = true;
+    private String mensaje = "";
+    private String mensaje2 = "Todo correcto";
     private ArrayList<ArrayList<String>> entrada = new ArrayList<ArrayList<String>>();
-    //private String [] terminales = {"Columna", "Fila", "Contenedor", "Lista", "[", "]", };
     private ArrayList<String> terminales = new ArrayList<>(Arrays.asList("Columna", "Fila", "Contenedor", "Lista", "[", "]", "a..z", "A..Z", "\"", "Button", "(", ")", ",", "$"));
     private ArrayList<String> noTerminales = new ArrayList<>(Arrays.asList("S", "Widget", "CI", "CC", "Cuerpo", "LE", "Texto", "RT", "Boton", "PI", "PC", "RC", "RC2"));
-    //private Pattern terminales = Pattern.compile("(Columna|Fila|Contenedor|Lista|\\[|\\]|^[a-zA-Z][a-zA-Z]*|\"|“|”|,|\\$)");
     private Pattern letras = Pattern.compile("^[a-zA-Z][a-zA-Z]*");
     private Pattern letrasMa = Pattern.compile("^[A-Z][A-Z]*");
 
@@ -41,12 +41,6 @@ public class AnalizadorSintactico {
                 a = "$";
             }
 
-            if (a.equals("[")){
-                ciAux++;
-            }
-            if (a.equals("]")){
-                ccAux++;
-            }
             System.out.println("Valor x: " + x);
             System.out.println("Valor a: " + a);
             if (terminales.contains(x)){
@@ -59,11 +53,14 @@ public class AnalizadorSintactico {
                         a = entrada.get(apuntador).get(0);
                     } else if (!pila.isEmpty() && apuntador == entrada.size()+1){ //(ccAux != ciAux)
                         System.out.println("Error: cadena incompleta");
+                        mensaje = "Entrada incorrecta: Entrada incompleta";
+                        mensaje2 = "Hace falta un ]";
                         status = false;
                         System.out.println("apuntador: " + apuntador + " | Entrada: " + entrada.size());
                     }
                 } else {
-                    System.out.println("Error: cadena incompleta");
+                    mensaje = "Error";
+                    System.out.println("Error");
                 }
             } else {
                 int posicion = 0;
@@ -92,16 +89,68 @@ public class AnalizadorSintactico {
                         pila.push(produccion[i]);
                     }
                 } else {
+                    mensaje = "Entrada incorrecta: Error Sintactico";
+                    mensajeError(a, x);
+                    System.out.println("Mensaje2: " + mensaje2);
                     System.out.println("Error Sintactico: " + a);
                     System.out.println("Error Sintactico: " + tabla[noTerminales.indexOf(x)][posicion] + " Posicionfila: " + noTerminales.indexOf(x));
                     status = false;
                 }
             }
             mostrar_pila(pila);
-            System.out.println("CI: " + ciAux + " | CC: " + ccAux);
             System.out.println("\n");
         }while (!x.equals("$") && status);
 
+    }
+
+    private void mensajeError(String et, String regla){
+        // Fila[Fila[Fila[Contenedor["KevinUno"]]],Button("hola kevin"),Columna[KevinDos"]]
+        if (regla.equals("RC2") || regla.equals("Cuerpo")){
+            if (et.equals("[")){
+                mensaje2 = "Se esperaba Columna, Fila, Contenedor o Lista antes de un [";
+            } else {
+                if (et.equals("]")){
+                    mensaje2 = "Se esperaba un Texto, Button o un widget antes de un ]";
+                }
+            }
+            if (letras.matcher(et).matches()){
+                mensaje2 = "Se espearaba una \" antes de " + et;
+            }
+            if (et.equals("(")){
+                mensaje2 = "Se esperaba la palabra Button entes de los parentesis";
+            }
+        }
+
+        if (regla.equals("RT")){
+            mensaje2 = "Se esperaba una \" antes de " + et;
+        }
+
+        if (regla.equals("CI")){
+            mensaje2 = "Se esperaba un [ y se recibio un " + et;
+        }
+
+        if (regla.equals("PI")){
+            mensaje2 = "Se esperaba un ( depues de un Button";
+        }
+
+        if (regla.equals("PC")){
+            mensaje2 = "Se esperaba un ) despues del tetxo en un Button";
+        }
+
+        if (regla.equals("RC")){
+            mensaje2 = "Se esperaba una , y se recibio " + et;
+        }
+        if (regla.equals("S")){
+            mensaje2 = "Se esperaba una Columna, Fila, Contenedor o lista antes de " + et;
+        }
+
+        if (regla.equals("Texto")){
+            mensaje2 = "Se esperaba Texto para el Button";
+        }
+
+        if (regla.equals("LE")){
+            mensaje2 = "Se esperaba un Texto dentro de los parenetsis";
+        }
     }
 
     private void mostrar_pila(Stack<String> pila){
@@ -112,6 +161,18 @@ public class AnalizadorSintactico {
             System.out.println(pila.get(i-1));
         }
         System.out.println("---------------------PILA FIN------------------------\n");
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public String getMensaje2() {
+        return mensaje2;
     }
 
     private String[][] tablaPredictiva() {

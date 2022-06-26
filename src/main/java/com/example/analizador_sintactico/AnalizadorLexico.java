@@ -78,7 +78,7 @@ public class AnalizadorLexico {
                 }
             } else {
                 System.out.println("No hay dato antes");
-                if( (puntuacion.contains(item) || expresionLetra.matcher(item).matches()) && contador == listaCharCadenda.length-1){
+                if( (puntuacion.contains(item) || (expresionLetra.matcher(item).matches()) && contador == listaCharCadenda.length-1)){
                     correctos.add(item);
                 } else if (expresionLetra.matcher(item).matches() && puntuacion.contains(String.valueOf(listaCharCadenda[posicionSiguiente]))){ // en caso de que haya un dato siguiente y no sea letra
                     correctos.add(item);

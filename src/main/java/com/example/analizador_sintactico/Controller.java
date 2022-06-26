@@ -17,6 +17,8 @@ public class Controller {
     @FXML
     private Label labelStatus;
     @FXML
+    private Label labelStatus2;
+    @FXML
     private TextField idEntrada;
     @FXML
     private Pane paneLista;
@@ -59,12 +61,22 @@ public class Controller {
             }
 
             if (analizador.getStatus() && listaValidados.size() > 0){
-                labelStatus.setText("Entrada correcta");
-                labelStatus.setStyle("-fx-text-fill: GREEN");
                 AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico(listaValidados);
                 analizadorSintactico.analizarEntrada();
+                if (analizadorSintactico.getStatus()){
+                    labelStatus.setText("Entrada correcta");
+                    labelStatus.setStyle("-fx-text-fill: GREEN");
+                } else {
+                    String mjs = analizadorSintactico.getMensaje();
+                    String mjs2 = analizadorSintactico.getMensaje2();
+                    labelStatus.setText(mjs);
+                    labelStatus.setStyle("-fx-text-fill: RED");
+                    labelStatus2.setText(mjs2);
+                    labelStatus2.setStyle("-fx-text-fill: ORANGE");
+                }
+
             } else {
-                labelStatus.setText("Entrada incorrecta - Error lexico");
+                labelStatus.setText("Entrada incorrecta: Error de lexico");
                 labelStatus.setStyle("-fx-text-fill: RED");
                 if (listaValidados.isEmpty()){
                     System.out.println("No hay");
@@ -84,6 +96,7 @@ public class Controller {
         paneLista.setVisible(false);
         btnLimpiar.setVisible(false);
         labelStatus.setText("");
+        labelStatus2.setText("");
         listView.getItems().clear();
     }
 }

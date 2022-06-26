@@ -65,7 +65,7 @@
             <Font name="Arial Black" size="11.0" />
          </font>
       </Text>
-      <Label fx:id="labelStatus" alignment="CENTER" layoutX="305.0" layoutY="334.0" prefHeight="25.0" prefWidth="303.0" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="labelStatus" alignment="CENTER" layoutX="295.0" layoutY="334.0" prefHeight="25.0" prefWidth="303.0" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
@@ -75,5 +75,10 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <Label fx:id="labelStatus2" layoutX="15.0" layoutY="487.0" prefHeight="31.0" prefWidth="567.0" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
