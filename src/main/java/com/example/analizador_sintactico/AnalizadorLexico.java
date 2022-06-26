@@ -23,19 +23,19 @@ public class AnalizadorLexico {
             ArrayList<String> auxiliar = new ArrayList<>();
             auxiliar.add(item);
             if (palabrasReservadas.contains(item)){
-                System.out.println("Si: " + item );
+                //System.out.println("Si: " + item );
                 auxiliar.add("1");
                 auxiliar.add("Palabras Reservadas");
             } else if (caracteresPuntuacion.contains(item)) {
-                System.out.println("Si: " + item );
+                //System.out.println("Si: " + item );
                 auxiliar.add("1");
                 auxiliar.add("Caracteres de puntuación");
             } else if (expresionLetra.matcher(item).matches()){
-                System.out.println("Si: " + item );
+                //System.out.println("Si: " + item );
                 auxiliar.add("1");
                 auxiliar.add("Letras");
             } else {
-                System.out.println("No: " + item );
+                //System.out.println("No: " + item );
                 auxiliar.add("2");
                 auxiliar.add("Sin token");
                 status = false;
@@ -58,7 +58,7 @@ public class AnalizadorLexico {
         String puntuacion = "”,“[]()\"";
         for (char caracter : listaCharCadenda){
             String item = String.valueOf(caracter);
-            System.out.println("Item: " + item);
+            //System.out.println("Item: " + item);
 
             if (!anterior.equals("")){
                 if (!item.equals(" ")){

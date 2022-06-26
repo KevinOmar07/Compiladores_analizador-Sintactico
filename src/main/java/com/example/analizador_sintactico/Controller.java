@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Controller {
     @FXML
@@ -46,7 +47,7 @@ public class Controller {
             System.out.println("Tamaño: " +  listaValidados.size());
 
             for (ArrayList item : listaValidados){
-                System.out.println("Token: " + item.get(2) + " | Dato: " + item.get(0) + " - Correcto");
+                //System.out.println("Token: " + item.get(2) + " | Dato: " + item.get(0) + " - Correcto");
                 String estado;
                 if (item.get(1).equals("1")){
                     estado = "Correcto";
@@ -57,12 +58,13 @@ public class Controller {
 
             }
 
-            //listView.getItems().add("Pedro");
             if (analizador.getStatus() && listaValidados.size() > 0){
                 labelStatus.setText("Entrada correcta");
                 labelStatus.setStyle("-fx-text-fill: GREEN");
+                AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico(listaValidados);
+                analizadorSintactico.analizarEntrada();
             } else {
-                labelStatus.setText("Entrada incorrecta");
+                labelStatus.setText("Entrada incorrecta - Error lexico");
                 labelStatus.setStyle("-fx-text-fill: RED");
                 if (listaValidados.isEmpty()){
                     System.out.println("No hay");
